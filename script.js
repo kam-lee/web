@@ -1,3 +1,4 @@
+console.log('js is ok');
 fetch('123.txt')
   .then(response => {
     if (response.ok) {
