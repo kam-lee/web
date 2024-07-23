@@ -8,18 +8,6 @@ $(document).ready(function() {
         ]
     ];
     var pre_path = ["tag/fac/", "tag/staf/", "tag/stu/"];
-    //获取子文件夹数量
-    async function getSubCnt(path) {
-        var cnt = 0;
-        for (var i = 1; i < 100; i++) {
-            var response = await fetch(path + i.toString() + '/Info.txt');
-            if (response.ok) {
-                cnt++;
-            } else {
-                return cnt;
-            }
-        }
-    }
     //获取文件内容
     async function fetchFile(url) {
         const response = await fetch(url);
@@ -77,10 +65,7 @@ $(document).ready(function() {
     //主函数
     async function MAIN() {
         //获取项目数量
-        for (var j = 0; j < 3; j++) {
-            var subcnt = await getSubCnt(pre_path[j]);
-            responseData[0][j] = subcnt;
-        }
+        responseData[0] = (await fetchFile('tag/cnt.txt')).split(',').map(Number);
         //获取内容
         var data_tmp = await fetchAllFoldersData();
         //归类
