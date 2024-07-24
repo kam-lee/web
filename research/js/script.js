@@ -123,6 +123,23 @@ $(document).ready(function() {
                 cov_div.click(function() {
                     window.location.href = "./sources/" + index.toString() + ".html"; // 将 "页面a的URL" 替换为你想要跳转的页面的URL
                 });
+                //
+                var lernmo = $("<div>");
+                lernmo.hover(
+                    function() {
+                        $(this).css("cursor", "pointer");
+                    });
+                lernmo.attr("class", "sml-tit")
+                    .css({
+                        "top": ((index - 1) * (elle_px + 50) + 50 + 420).toString() + "px",
+                        "margin-left": Math.floor((0 - hori_px) / 2 + 410).toString() + "px",
+                        "width": hori_px.toString() + "px",
+                        "height": elle_px.toString() + "px",
+                    }).html("Learn More...");
+                $(".news-area").append(lernmo);
+                lernmo.click(function() {
+                    window.location.href = "./sources/" + index.toString() + ".html"; // 将 "页面a的URL" 替换为你想要跳转的页面的URL
+                });
             })(k);
         }
     }
