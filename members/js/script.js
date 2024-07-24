@@ -45,8 +45,8 @@ $(document).ready(function() {
             fetchImage(imageUrl),
         ]);
         return {
-            name: infoContent.split("\r\n")[0],
-            tittle: infoContent.split("\r\n")[1],
+            name: infoContent.split("\n")[0],
+            tittle: infoContent.split("\n")[1],
             tag_img: imageBase64,
             no: folderIndex,
             area: pre_ind - 1
