@@ -33,8 +33,8 @@ $(document).ready(function() {
             fetchImage(imageUrl),
         ]);
         return {
-            tittle: infoContent.split("\r\n")[0],
-            date: infoContent.split("\r\n")[1],
+            tittle: infoContent.split("\n")[0],
+            date: infoContent.split("\n")[1],
             tag_img: imageBase64,
             no: folderIndex,
         };
