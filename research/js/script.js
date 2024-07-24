@@ -1,74 +1,61 @@
 $(document).ready(function() {
-    var num_news = 0;
     var responseData = [
         0, []
     ];
-    var voidFolder = false;
-    var RdrRes;
-    async function fetchTXT(folderName) {
-        try {
-            // 使用fetch获取图片的base64内容
-            var response = await fetch(folderName);
-            if (response.ok) {
-                voidFolder = false;
-            } else {
-                voidFolder = true;
-            }
-            RdrRes = await response.text();
-        } catch (error) {
-            console.error(error);
+    //获取文件内容
+    async function fetchFile(url) {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
         }
+        return response.text();
     }
-    async function fetchIMG(folderName) {
-        try {
-            // 使用fetch获取图片的base64内容
-            var response = await fetch(folderName);
-            var base64Image;
-            if (response.ok) {
-                voidFolder = false;
-            } else {
-                voidFolder = true;
-            }
-            var blob = await response.blob();
-            // 使用FileReader读取Blob，并将其转换为BASE64编码
-            var reader = new FileReader();
-            reader.readAsDataURL(blob);
-            // 等待FileReader完成读取
-            await new Promise((resolve, reject) => {
-                reader.onloadend = () => {
-                    base64Image = reader.result;
-                    resolve();
-                };
-                reader.onerror = reject;
-            });
-            RdrRes = base64Image;
-        } catch (error) {
-            console.error(error);
+    async function fetchImage(url) {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
         }
+        const blob = await response.blob();
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+        });
+    }
+    //打包单一文件夹数据
+    async function fetchFolderData(folderIndex0) {
+        var folderIndex = folderIndex0;
+        const infoUrl = `tag/${folderIndex}/Info.txt`;
+        const imageUrl = `tag/${folderIndex}/Image.jpg`;
+        const [infoContent, imageBase64] = await Promise.all([
+            fetchFile(infoUrl),
+            fetchImage(imageUrl),
+        ]);
+        return {
+            tittle: infoContent.split("\r\n")[0],
+            date: infoContent.split("\r\n")[1],
+            tag_img: imageBase64,
+            no: folderIndex,
+        };
+    }
+    //打包所有文件夹数据
+    async function fetchAllFoldersData() {
+        let num = responseData[0];
+        const folderIndices = Array.from({ length: num }, (_, i) => i + 1);
+        const folderPromises = folderIndices.map(fetchFolderData);
+        return Promise.all(folderPromises);
     }
     async function MAIN() {
-        var ind = 0;
-        while (true) {
-            ind++;
-            var path = "tag/" + ind.toString() + '/Info.txt';
-            await fetchTXT(path);
-            if (voidFolder) {
-                break;
-            } else {
-                let tmp_obj = {
-                    tittle: RdrRes.split('\n')[0],
-                    date: RdrRes.split('\n')[1]
-                };
-                responseData[1][ind - 1] = tmp_obj;
-            }
-        }
-        responseData[0] = ind - 1;
-        for (var i = 1; i < ind; i++) {
-            var path = "tag/" + i.toString() + '/Image.jpg';
-            await fetchIMG(path);
-            responseData[1][i - 1].tag_img = RdrRes;
-        }
-        num_news = responseData[0];
+        //获取项目数量
+        responseData[0] = Number(await fetchFile('tag/cnt.txt'));
+        //获取内容
+        var data_tmp = await fetchAllFoldersData();
+        //归类
+        responseData[1] = data_tmp;
+        //排序
+        responseData[1].sort((a, b) => a.no - b.no);
+        var num_news = responseData[0];
         var elle_px = 550; //竖直高度
         var hori_px = 1090; //水平宽度
         $(".news-area").height((num_news - 0) * (elle_px + 50) + 50);

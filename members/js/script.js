@@ -65,7 +65,10 @@ $(document).ready(function() {
     //主函数
     async function MAIN() {
         //获取项目数量
-        responseData[0] = (await fetchFile('tag/cnt.txt')).split(',').map(Number);
+        var obj_tmp = JSON.parse(await fetchFile('tag/cnt.txt'));
+        for (let j = 0; j < pre_path.length; j++) {
+            responseData[0][j] = obj_tmp[pre_path[j].split("/")[1]];
+        }
         //获取内容
         var data_tmp = await fetchAllFoldersData();
         //归类
@@ -76,7 +79,6 @@ $(document).ready(function() {
         for (let i = 0; i < pre_path.length; i++) {
             responseData[1][i].sort((a, b) => a.no - b.no);
         }
-        console.log(responseData);
         var item_num = responseData[0];
         var pre_let = ['A', 'B', 'C'];
         var pre_div;
@@ -85,7 +87,7 @@ $(document).ready(function() {
             var start_id = '#' + pre_let[i] + '1';
             $(start_id).css('background-image', "url(" + responseData[1][i][0].tag_img + ")");
             $(start_id).css('z-index', "1");
-            $(start_id + ' .overlay').html(responseData[1][i][0].name + "<br> <br>" + responseData[1][i][0].title);
+            $(start_id + ' .overlay').html(responseData[1][i][0].name + "<br> <br>" + responseData[1][i][0].tittle);
             pre_div = $(start_id);
             //复制后面几步
             var cur_tol_num = item_num[i]; //目前这个栏目的总条目数
@@ -95,7 +97,7 @@ $(document).ready(function() {
                 copy_div.attr('id', pre_let[i] + (j + 1).toString());
                 copy_div.insertAfter(pre_div);
                 copy_div.css('background-image', "url(" + responseData[1][i][j].tag_img + ")");
-                copy_div.find(".overlay").html(responseData[1][i][j].name + "<br> <br>" + responseData[1][i][j].title);
+                copy_div.find(".overlay").html(responseData[1][i][j].name + "<br> <br>" + responseData[1][i][j].tittle);
                 pre_div = copy_div;
             }
         }

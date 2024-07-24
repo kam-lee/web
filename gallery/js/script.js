@@ -7,90 +7,76 @@ $(document).ready(function() {
             []
         ]
     ];
-    var voidFolder = false;
-    var RdrRes;
-    async function fetchTXT(folderName) {
-        try {
-            // 使用fetch获取图片的base64内容
-            var response = await fetch(folderName);
-            if (response.ok) {
-                voidFolder = false;
-            } else {
-                voidFolder = true;
-            }
-            RdrRes = await response.text();
-        } catch (error) {
-            console.error(error);
+    var pre_path = ["tag/lab/", "tag/daily/"];
+    //获取文件内容
+    async function fetchFile(url) {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
         }
+        return response.text();
     }
-    async function fetchIMG(folderName) {
-        try {
-            // 使用fetch获取图片的base64内容
-            var response = await fetch(folderName);
-            var base64Image;
-            if (response.ok) {
-                voidFolder = false;
-            } else {
-                voidFolder = true;
-            }
-            var blob = await response.blob();
-            // 使用FileReader读取Blob，并将其转换为BASE64编码
-            var reader = new FileReader();
+    async function fetchImage(url) {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+        }
+        const blob = await response.blob();
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
             reader.readAsDataURL(blob);
-            // 等待FileReader完成读取
-            await new Promise((resolve, reject) => {
-                reader.onloadend = () => {
-                    base64Image = reader.result;
-                    resolve();
-                };
-                reader.onerror = reject;
-            });
-            RdrRes = base64Image;
-        } catch (error) {
-            console.error(error);
-        }
+        });
     }
+    //打包单一文件夹数据
+    async function fetchFolderData(folderIndex0) {
+        var sum_tmp = 0;
+        var pre_ind = 0;
+        while (folderIndex0 > sum_tmp) {
+            pre_ind++;
+            sum_tmp += responseData[0][pre_ind - 1];
+        }
+        var folderIndex = folderIndex0 - (sum_tmp - responseData[0][pre_ind - 1]);
+        const infoUrl = `${pre_path[pre_ind-1]}${folderIndex}/Info.txt`;
+        const imageUrl = `${pre_path[pre_ind-1]}${folderIndex}/Image.jpg`;
+        const [infoContent, imageBase64] = await Promise.all([
+            fetchFile(infoUrl),
+            fetchImage(imageUrl),
+        ]);
+        return {
+            tittle: infoContent,
+            tag_img: imageBase64,
+            no: folderIndex,
+            area: pre_ind - 1
+        };
+    }
+    //打包所有文件夹数据
+    async function fetchAllFoldersData() {
+        let num = 0;
+        for (let i = 0; i < responseData[0].length; i++) {
+            num += responseData[0][i];
+        }
+        const folderIndices = Array.from({ length: num }, (_, i) => i + 1);
+        const folderPromises = folderIndices.map(fetchFolderData);
+        return Promise.all(folderPromises);
+    }
+    //主函数
     async function MAIN() {
-        var ind = [0, 0];
-        //获取lab
-        while (true) {
-            ind[0]++;
-            var path = 'tag/lab/' + ind[0].toString() + '/info.txt';
-            await fetchTXT(path);
-            if (voidFolder) {
-                break;
-            } else {
-                let tmp_obj = {
-                    tittle: RdrRes
-                };
-                responseData[1][0][ind[0] - 1] = tmp_obj;
-            }
+        //获取项目数量
+        var obj_tmp = JSON.parse(await fetchFile('tag/cnt.txt'));
+        for (let j = 0; j < pre_path.length; j++) {
+            responseData[0][j] = obj_tmp[pre_path[j].split("/")[1]];
         }
-        responseData[0][0] = ind[0] - 1;
-        for (var i = 1; i < ind[0]; i++) {
-            var path = 'tag/lab/' + i.toString() + '/Image.jpg';
-            await fetchIMG(path);
-            responseData[1][0][i - 1].tag_img = RdrRes;
+        //获取内容
+        var data_tmp = await fetchAllFoldersData();
+        //归类
+        for (let j = 0; j < data_tmp.length; j++) {
+            responseData[1][data_tmp[j].area].push(data_tmp[j]);
         }
-        //获取daily
-        while (true) {
-            ind[1]++;
-            var path = 'tag/daily/' + ind[1].toString() + '/info.txt';
-            await fetchTXT(path);
-            if (voidFolder) {
-                break;
-            } else {
-                let tmp_obj = {
-                    tittle: RdrRes
-                };
-                responseData[1][1][ind[1] - 1] = tmp_obj;
-            }
-        }
-        responseData[0][1] = ind[1] - 1;
-        for (var i = 1; i < ind[1]; i++) {
-            var path = 'tag/daily/' + i.toString() + '/Image.jpg';
-            await fetchIMG(path);
-            responseData[1][1][i - 1].tag_img = RdrRes;
+        //排序
+        for (let i = 0; i < pre_path.length; i++) {
+            responseData[1][i].sort((a, b) => a.no - b.no);
         }
         //continue
         var num_news = responseData[0];
@@ -134,11 +120,12 @@ $(document).ready(function() {
                         "width": hori_px.toString() + "px",
                         "height": elle_px.toString() + "px",
                         "background-color": "rgba(0,0,0,0.5)",
-                        "font-size": "36px",
+                        "font-size": "40px",
                         "color": "white",
                         "text-align": "center",
                         "line-height": "80px",
-                        "padding-top": "200px",
+                        "padding-top": "240px",
+                        "font-family": "Times New Roma",
                         "transition": "background-color 0.5s"
                     }).html(title);
                 $(con_name).append(newDiv);
