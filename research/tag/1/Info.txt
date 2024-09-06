@@ -1,2 +1,0 @@
-Rotating detonation Engines
-We conducted plenty of ground experiments and numerical simulations on rotating detonation engines.
