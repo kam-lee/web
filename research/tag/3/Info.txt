@@ -1,2 +1,2 @@
-CFD Software Development
-We developed open-source codes named OpenHurricane for hypersonic flow. 
+CFD computational methods
+We have developed various universal CFD software that can be used for simulation of rocket engines, ramjet engines, and other types of engines.

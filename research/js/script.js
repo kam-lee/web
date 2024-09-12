@@ -58,7 +58,8 @@ $(document).ready(function() {
         var num_news = responseData[0];
         var elle_px = 550; //竖直高度
         var hori_px = 1090; //水平宽度
-        $(".news-area").height((num_news - 0) * (elle_px + 50) + 50);
+        var marg = 80;  //间距
+        $(".news-area").height((num_news - 0) * (elle_px + marg) + marg);
         for (var k = 0; k < num_news; k++) {
             (function(i) {
                 var index = i + 1;
@@ -67,7 +68,7 @@ $(document).ready(function() {
                 var image = responseData[1][i].tag_img;
                 var newDiv = $("<div>");
                 var cur_id = "news-box" + index.toString();
-                var cur_top = ((index - 1) * (elle_px + 50) + 50).toString() + "px";
+                var cur_top = ((index - 1) * (elle_px + marg) + marg).toString() + "px";
                 newDiv.attr("id", cur_id)
                     .css({
                         "position": "absolute",
@@ -78,6 +79,8 @@ $(document).ready(function() {
                         "width": hori_px.toString() + "px",
                         "height": elle_px.toString() + "px",
                         "background-size": "cover",
+                        "background-repeat": "no-repeat",
+                        "background-position": "center"
                     });
                 newDiv.css("background-image", "url(" + image + ")");
                 var cov_div = $("<div>");
@@ -87,17 +90,19 @@ $(document).ready(function() {
                         "top": cur_top,
                         "left": "50%",
                         "margin-left": Math.floor((0 - hori_px) / 2).toString() + "px",
-                        "display": "inline-block",
+                        "display": "flex",
+                        "flex-direction": "column", /* 使子元素垂直排列 */
+                        "justify-content": "center",
                         "width": hori_px.toString() + "px",
                         "height": elle_px.toString() + "px",
                         "background-color": "rgba(64,64,64,0.6)",
                         "color": "white",
                         "text-align": "left",
                         "line-height": "40px",
-                        "padding-top": "150px",
-                        "padding-left": "150px",
+                        "padding-left": "100px",
+                        "padding-right": "100px",
                         "transition": "background-color 0.5s"
-                    }).html("<p style=\"font-size:52px\">" + title + "</p><br><br><p style=\"font-size:32px; font-family: Georgia, 'Times New Roman', Times, serif\">" + date + "</p>");
+                    }).html("<p style=\"font-size:52px; text-align:center\">" + title + "</p><br><p style=\"font-size:32px; font-family: Georgia, 'Times New Roman', Times, serif\">" + date + "</p>");
                 cov_div.hover(
                     function() {
                         $(this).queue(function(next) { // 延迟500毫秒
@@ -121,7 +126,7 @@ $(document).ready(function() {
                 $(".news-area").append(newDiv);
                 $(".news-area").append(cov_div);
                 cov_div.click(function() {
-                    window.location.href = "./sources/" + index.toString() + ".html"; // 将 "页面a的URL" 替换为你想要跳转的页面的URL
+                    window.location.href = "./sources/" + index.toString() + "/"; // 将 "页面a的URL" 替换为你想要跳转的页面的URL
                 });
                 //
                 var lernmo = $("<div>");
@@ -131,14 +136,14 @@ $(document).ready(function() {
                     });
                 lernmo.attr("class", "sml-tit")
                     .css({
-                        "top": ((index - 1) * (elle_px + 50) + 50 + 420).toString() + "px",
+                        "top": ((index - 1) * (elle_px + marg) + marg + 420).toString() + "px",
                         "margin-left": Math.floor((0 - hori_px) / 2 + 410).toString() + "px",
                         "width": hori_px.toString() + "px",
                         "height": elle_px.toString() + "px",
                     }).html("Learn More...");
                 $(".news-area").append(lernmo);
                 lernmo.click(function() {
-                    window.location.href = "./sources/" + index.toString() + ".html"; // 将 "页面a的URL" 替换为你想要跳转的页面的URL
+                    window.location.href = "./sources/" + index.toString() + "/"; // 将 "页面a的URL" 替换为你想要跳转的页面的URL
                 });
             })(k);
         }

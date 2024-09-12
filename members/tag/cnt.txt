@@ -1,1 +1,1 @@
-{"fac": 3,"staf":2,"stu":22}
+{"fac": 3,"staf":2,"alum":4,"doc":9,"mast":10,"jump":2}

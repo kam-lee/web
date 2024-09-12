@@ -10,4 +10,9 @@
 2. 调整了footer布局：居中
 3. 调整了contact页面内容
 version v0.6 20240907
+======================
+更新日志：
+1. 调整了member的页面布局
+2. 增加了research的内容
+version v0.7 20240913
 buaa-hpl.top

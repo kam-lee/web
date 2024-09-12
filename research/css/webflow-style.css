@@ -6,6 +6,7 @@ html {
 
 body {
     margin: 0;
+    text-align: center;
 }
 
 article,
@@ -2861,6 +2862,7 @@ body {
 .section-20 {
     background-color: #023772;
     height: 430px;
+    text-align: left;
     margin-top: 100px;
     display: flex;
     flex-direction: row;
@@ -3405,7 +3407,6 @@ body {
     color: #000;
     border-top: 4px solid #5f52a0;
     margin-top: 50px;
-    margin-left: 250px;
     padding-top: 20px;
     padding-left: 20px;
     padding-right: 20px;
@@ -3419,10 +3420,11 @@ body {
     justify-content: center;
     /* 水平居中 */
     margin-top: 50px;
+    text-align: left;
 }
 
 .highlight {
-    font-size: 45px;
+    font-size: 52px;
     line-height: 60px;
     margin-top: 60px;
     margin-left: -100px;
@@ -3432,8 +3434,8 @@ body {
 }
 
 .lernmo p {
-    font-size: 22px;
-    line-height: 30px;
+    font-size: 28px;
+    line-height: 32px;
     color: #000;
     display: inline-block;
     width: 1150px;
