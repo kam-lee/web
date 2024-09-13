@@ -62,7 +62,7 @@ $(document).ready(function() {
         $(".news-area").height((num_news - 0) * (elle_px + 50) + 50);
         for (var k = 0; k < num_news; k++) {
             (function(i) {
-                var index = i + 1;
+                var index = num_news - i;
                 var title = responseData[1][i].tittle;
                 var date = responseData[1][i].date;
                 var image = responseData[1][i].tag_img;
@@ -122,7 +122,8 @@ $(document).ready(function() {
                 $(".news-area").append(newDiv);
                 $(".news-area").append(cov_div);
                 cov_div.click(function() {
-                    window.location.href = "./sources/" + index.toString() + "/"; // 将 "页面a的URL" 替换为你想要跳转的页面的URL
+                  // console.log("./sources/" + (i+1).toString() + "/");
+                    window.location.href = "./sources/" + (i+1).toString() + "/"; // 将 "页面a的URL" 替换为你想要跳转的页面的URL
                 });
             })(k);
         }

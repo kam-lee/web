@@ -2,17 +2,9 @@
 **tag中Image格式必须为jpg
 **News照片：800*600
 **Research照片：1090*550
+**Gallery图片：1000*500
 **Member照片：403*546
 1. 新增动态项目要修改cnt.txt
+2. news和gallery大数在前，research和members小数在前
 ======================
-更新日志：
-1. 更新了一部分内容
-2. 调整了footer布局：居中
-3. 调整了contact页面内容
-version v0.6 20240907
-======================
-更新日志：
-1. 调整了member的页面布局
-2. 增加了research的内容
-version v0.7 20240913
 buaa-hpl.top

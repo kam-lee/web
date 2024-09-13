@@ -90,8 +90,8 @@ $(document).ready(function() {
                 con_name = ".news-area2";
             }
             $(con_name).height((num_news[j] - 0) * (elle_px + 50) + 50);
-            for (var i = 0; i < num_news[j]; i++) {
-                var index = i + 1;
+            for (var i = num_news[j]-1; i >=0; i--) {
+                var index = num_news[j]- i;
                 var title = responseData[1][j][i].tittle;
                 var image = responseData[1][j][i].tag_img;
                 var newDiv = $("<div>");
@@ -126,7 +126,7 @@ $(document).ready(function() {
                         "color": "white",
                         "text-align": "center",
                         "line-height": "80px",
-                        "padding-top": "240px",
+                        "padding-top": "200px",
                         "font-family": "Times New Roma",
                         "transition": "background-color 0.5s"
                     }).html(title);

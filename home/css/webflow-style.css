@@ -1264,6 +1264,28 @@ textarea.w-select {
     position: relative;
 }
 
+.w-slide .slide-cover{
+    width: 100%;
+    height: 700px;
+    display: flex;
+    position: absolute;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    font-size: 72px;
+    line-height: 72px;
+    color: #fff;
+    background-color: rgba(102,102,102,0.6);
+    transition: 0.8s;
+}
+
+.slide-cover:hover{
+    opacity: 0;
+    color: rgba(0,0,0,0);
+    cursor: pointer;
+}
+
 .w-slider-nav {
     z-index: 2;
     text-align: center;
@@ -2263,6 +2285,7 @@ textarea.w-select {
 }
 
 .section-4 {
+    gap:60px;
     text-align: center;
     justify-content: center;
     height: 430px;
@@ -2276,56 +2299,32 @@ textarea.w-select {
     width: 415px;
     height: 490px;
     margin-top: -93px;
-    display: inline-block;
-}
-
-.div-block-2 {
-    text-align: left;
-    background-color: #fff;
-    border: 3px solid #023772;
-    width: 415px;
-    height: 490px;
-    margin-top: -93px;
-    margin-left: 100px;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
 }
 
 .text-block-3 {
     color: #000;
     text-align: center;
-    padding-top: 70px;
+    padding-top: 45px;
     font-size: 42px;
     font-weight: 700;
     line-height: 38px;
+    height: 140px;
 }
 
 .text-block-4 {
     color: #000;
-    text-align: justify;
-    margin-top: 180px;
     padding-left: 20px;
     padding-right: 20px;
-    font-size: 25px;
-    line-height: 30px;
-    display: block;
-}
-
-.text-block-5 {
-    color: #000;
-    padding-top: 45px;
-    padding-left: 20px;
-    font-size: 42px;
-    font-weight: 700;
-    line-height: 42px;
-}
-
-.text-block-6 {
-    color: #000;
-    margin-top: 160px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 25px;
-    line-height: 30px;
+    font-size: 22px;
+    line-height: 28px;
+    text-align: left;
+    height: 200px;
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
 }
 
 .text-block-7 {
@@ -2594,6 +2593,60 @@ textarea.w-select {
     line-height: 52px;
 }
 
+.news-area {
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.joinus-area{
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.joinus-content{
+    width: 1450px;
+    height: 245px;
+    display: flex;
+    flex-direction: row;
+    gap: 160px;
+    justify-content: left;
+    align-items: center;
+    border: 2px solid #023772;
+    background-color: #8c97cb;
+}
+
+.joinus-text{
+    font-size: 36px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    text-align: justify;
+    line-height: 48px;
+    padding-left: 90px;
+    width: 900px;
+    height: auto;
+    display: inline-block;
+}
+
+.joinus-content .joinus-btn{
+    font-size: 36px;
+    line-height: 65px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    width: 245px;
+    height: 65px;
+    background-color: #5f52a0;
+    text-align: center;
+    display: inline-block;
+}
+
+.joinus-btn:hover{
+    cursor: pointer;
+}
+
 .section-8 {
     text-align: center;
     justify-content: center;
@@ -2739,7 +2792,6 @@ textarea.w-select {
 .section-12 {
     background-color: #023772;
     height: 430px;
-    margin-top: 100px;
     display: flex;
     flex-direction: row;
     justify-content: center;
