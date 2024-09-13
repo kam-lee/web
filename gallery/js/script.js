@@ -38,7 +38,7 @@ $(document).ready(function() {
             sum_tmp += responseData[0][pre_ind - 1];
         }
         var folderIndex = folderIndex0 - (sum_tmp - responseData[0][pre_ind - 1]);
-        const infoUrl = `${pre_path[pre_ind-1]}${folderIndex}/Info.txt`;
+        const infoUrl = `${pre_path[pre_ind-1]}${folderIndex}/info.txt`;
         const imageUrl = `${pre_path[pre_ind-1]}${folderIndex}/Image.jpg`;
         const [infoContent, imageBase64] = await Promise.all([
             fetchFile(infoUrl),
